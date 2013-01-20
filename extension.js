@@ -52,18 +52,15 @@ TasksManager.prototype =
 		values = []	
 	        current_index = 0
 	        this._get_values();
-
-	        // item1 = new St.Label({text:_( values[current_index][0] ), style_class: 'item'})
-	        // item2 = new St.Label({text:_( values[current_index][1] ), style_class: 'item'})
-
 		this._refresh();
 	},
 
         _next_phrase: function(o,e) {
 	    current_index = (current_index + 1) % values.length;
-	    global.logError("Pulsado boton: " + current_index);
-	    item1.set_text(_(values[current_index][0]))
-	    item2.set_text(_(values[current_index][1]))
+	    item1.set_text(_(values[current_index][1]))
+	    item2.set_text(_(values[current_index][0]))
+	    
+	    labelCounter.set_text((current_index+1) + " / " + values.length);
 	},
 
         _prev_phrase: function(o,e) {
@@ -73,10 +70,11 @@ TasksManager.prototype =
 		current_index--;
 	    }
     
-	    global.logError("Pulsado boton: " + current_index);
+	    item1.set_text(_(values[current_index][1]))
+	    item2.set_text(_(values[current_index][0]))
+	    
+	    labelCounter.set_text((current_index+1) + " / " + values.length);
 
-	    item1.set_text(_(values[current_index][0]))
-	    item2.set_text(_(values[current_index][1]))
 	},
 
 
@@ -133,10 +131,10 @@ TasksManager.prototype =
 	    
 	    buttonText.set_text("(" + tasks + ")");
 
+	    item1 = new St.Label({text:_( values[current_index][1] ), style_class: 'item'})
+	    item2 = new St.Label({text:_( values[current_index][0] ), style_class: 'item'})
 
-	    item1 = new St.Label({text:_( values[current_index][0] ), style_class: 'item'})
-	    item2 = new St.Label({text:_( values[current_index][1] ), style_class: 'item'})
-
+	    labelCounter = new St.Label({text: "3 / 10" , style_class: 'item'})
 
 	    let upperSection = new PopupMenu.PopupMenuSection();
 	    upperSection.actor.add_actor(item1);
@@ -166,14 +164,7 @@ TasksManager.prototype =
 		    track_hover: true,
 		    can_focus: true
 		});
-	    
-	    
-	    // this.btNext = new St.Button({
-	    // 	name: "buttonNext",
-	    // 	style_class: 'button',
-	    // 	label: "hola"
-	    // });
-	    
+	        
 	    entryNewTranslation = this.entryTranslation.clutter_text;
 	    entryNewTask = this.entryForeign.clutter_text;
 	 
@@ -198,11 +189,11 @@ TasksManager.prototype =
 						       Lang.bind(this, function () { this._next_phrase(); }));
 	    
             this.trackControls = new Widget.LangcardButtons();
+	    this.trackControls.addButton(labelCounter);
             this.trackControls.addButton(this._prevButton);
             this.trackControls.addButton(this._nextButton);
 	    
             tasksMenu.addMenuItem(this.trackControls);
-
 
 	 },
 	
