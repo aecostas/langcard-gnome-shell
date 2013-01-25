@@ -57,9 +57,8 @@ TasksManager.prototype =
 
         _next_phrase: function(o,e) {
 	    current_index = (current_index + 1) % values.length;
-	    item1.set_text(_(values[current_index][1]))
-	    item2.set_text(_(values[current_index][0]))
-	    
+	    item1.set_text(_(values[current_index][1]));
+	    item2.set_text(_(values[current_index][0]));
 	    labelCounter.set_text((current_index+1) + " / " + values.length);
 	},
 
@@ -74,11 +73,10 @@ TasksManager.prototype =
 	    item2.set_text(_(values[current_index][0]))
 	    
 	    labelCounter.set_text((current_index+1) + " / " + values.length);
-
 	},
 
 
-        _new_phrase_handler: function(o,e){
+        _new_phrase_handler: function(o,e) {
 	    let symbol = e.get_key_symbol();
 	    if (symbol == Clutter.Return)
 	    {
@@ -134,7 +132,7 @@ TasksManager.prototype =
 	    item1 = new St.Label({text:_( values[current_index][1] ), style_class: 'item'})
 	    item2 = new St.Label({text:_( values[current_index][0] ), style_class: 'item'})
 
-	    labelCounter = new St.Label({text: "3 / 10" , style_class: 'item'})
+	    labelCounter = new St.Label({text: (current_index+1) + " / " + values.length , style_class: 'item'})
 
 	    let upperSection = new PopupMenu.PopupMenuSection();
 	    upperSection.actor.add_actor(item1);
@@ -170,23 +168,21 @@ TasksManager.prototype =
 	 
 	    entryNewTask.connect('key-press-event', this._new_phrase_handler);
 	    entryNewTranslation.connect('key-press-event', this._new_phrase_handler);
-//	    this.btNext.connect('clicked', this._next_phrase);
 	    
 	    bottomSection.actor.add_actor(this.entryTranslation);
     
             bottomSection.actor.add_style_class_name("newTaskSection");
 	    bottomSection.actor.add_actor(this.entryForeign);
-//	    bottomSection.actor.add_actor(this.btNext);
     
 	    tasksMenu.addMenuItem(upperSection);
 	    tasksMenu.addMenuItem(bottomSection);
 
 
             this._prevButton = new Widget.LangcardButton('media-skip-backward-symbolic',
-						       Lang.bind(this, function () { this._prev_phrase(); }));
+							 Lang.bind(this, function () { this._prev_phrase(); }));
 
             this._nextButton = new Widget.LangcardButton('media-skip-forward-symbolic',
-						       Lang.bind(this, function () { this._next_phrase(); }));
+							 Lang.bind(this, function () { this._next_phrase(); }));
 	    
             this.trackControls = new Widget.LangcardButtons();
 	    this.trackControls.addButton(labelCounter);
